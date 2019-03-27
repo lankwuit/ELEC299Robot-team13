@@ -23,12 +23,7 @@ int linecounter = 0
 }*/
 
 
-void loop() {
-  // code about which route youre supposed to take based on a pushbutton response
-  void forward (speed)
-  void followLine (speed, aggro)
-  
-}
+
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 int receiver(QSerial myIRS){
   int val = myIRS.receive(200);
