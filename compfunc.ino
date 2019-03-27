@@ -1,7 +1,7 @@
 
 #include "QSerial.h"
 
-
+int linecounter = 0
 
 
 //function file for competition
@@ -21,13 +21,20 @@
   }
   return sw;
 }*/
+
+
+void loop() {
+  // code about which route youre supposed to take based on a pushbutton response
+  void forward (speed)
+  void followLine (speed, aggro)
+  
+}
 //-------------------------------------------------------------------------------------------------------------------------------------------------
 int receiver(QSerial myIRS){
   int val = myIRS.receive(200);
   delay(100);
   if(val== 0 ){
-  Serial.println("error");
-  }else{
+  Serial.print
   Serial.println((char)val);
   return val;
   }
@@ -92,12 +99,6 @@ void followLine(int currentSpeed, boolean aggressive) {
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-  Serial.print("left");
-  Serial.println(leftSensorValue);
-  Serial.print("middle");
-  Serial.println(centerSensorValue);
-    Serial.print("right");
-  Serial.println(rightSensorValue);
 
   // If only the middle sensor is over the line, drive forward
   if (centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH) { //forward
@@ -116,9 +117,32 @@ void followLine(int currentSpeed, boolean aggressive) {
     turn(!true, currentSpeed, aggressive);
 
   }
+  }
 
-}
+-------------------------intersection------------------------ 
+void intersect(int currentSpeed, boolean aggressive)
+  if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for going straight
+    linecounter = linecounter +1;
+    forward(currentSpeed);
+  }
 
+ /* else if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for turning left.
+    linecounter = linecounter +1;
+      digitalWrite (RDirection, HIGH);//left wheel direction
+      analogWrite (RSpeed, targetspeed);//left wheel speed
+      digitalWrite (LDirection, HIGH);//right wheel direction
+      analogWrite (LSpeed, targetspeed);//right wheel speed
+  }
+  else if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for turning right.
+    linecounter = linecounter +1;
+    turn(true, currentSpeed, aggressive);
+      digitalWrite (RDirection, HIGH);//left wheel direction
+      analogWrite (RSpeed, targetspeed);//left wheel speed
+      digitalWrite (LDirection, HIGH);//right wheel direction
+      analogWrite (LSpeed, targetspeed);//right wheel speed
+  }
+
+*/
 // ---------------------------------------------
 
 
