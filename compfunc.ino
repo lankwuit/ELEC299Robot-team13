@@ -1,6 +1,6 @@
 
 #include "QSerial.h"
-
+int linecounter=0;
 
 
 //function file for competition
@@ -109,20 +109,18 @@ void followLine(int currentSpeed, boolean aggressive) {
     turn(!true, currentSpeed, aggressive);
 
   }
+  else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
+    intersect( leftSensorValue,centerSensorValue, rightSensorValue );
+  }
   }
 
 //-------------------------intersection------------------------ 
-void intersect(int currentSpeed, boolean aggressive){
-   int leftSensorValue = analogRead(LIRpin);
-  int centerSensorValue = analogRead(MIRpin);
-  int rightSensorValue = analogRead(RIRpin);
-  int linecounter;
-  if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH) {//for going straight
-    linecounter = linecounter +1;
-    followLine(currentSpeed, aggressive);
+void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue ){
+  linecounter = linecounter +1;
+  while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
   }
-  Serial.print(linecounter);
-  return;
+    return;
+
 }
 
  /* else if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for turning left.
