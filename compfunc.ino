@@ -85,61 +85,58 @@ int isBluetooth(){
 }
 //---------------------------------rrcode-----------------
 
-void followLine(int currentSpeed, boolean aggressive) {
+void followLine(int currentSpeed, int intersectThresh, boolean dir) {
 
   // Get the sensor readings
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
+  Serial.println(centerSensorValue);
+    Serial.println(leftSensorValue);
+      Serial.println(rightSensorValue);
 
   // If only the middle sensor is over the line, drive forward
   if (centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH) { //forward
     forward(currentSpeed);
-
   }
 
   // If the right sensor is over the line, turn right
   if (leftSensorValue < BlackTHRESH && rightSensorValue >= BlackTHRESH) {
-    turn(true, currentSpeed, aggressive); //RIGHT means 1 LEFT means 0
+    turn(true, currentSpeed, false); //RIGHT means 1 LEFT means 0
 
   }
 
   // If the left sensor is over the line, turn left
   else if (leftSensorValue >= BlackTHRESH && rightSensorValue < BlackTHRESH) {
-    turn(!true, currentSpeed, aggressive);
+    turn(false, currentSpeed, false);
 
   }
-  else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-    intersect( leftSensorValue,centerSensorValue, rightSensorValue );
-  }
+if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
+   intersect(leftSensorValue,centerSensorValue, rightSensorValue, intersectThresh, dir);
+ }
+  return;
   }
 
 //-------------------------intersection------------------------ 
-void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue ){
+void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue, int intersectThresh , boolean dir){
   linecounter = linecounter +1;
-  while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
+  while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){  
+  forward(180);
+  int leftSensorValue = analogRead(LIRpin);
+  int centerSensorValue = analogRead(MIRpin);
+  int rightSensorValue = analogRead(RIRpin);
+    Serial.println(centerSensorValue);
+    Serial.println(leftSensorValue);
+      Serial.println(rightSensorValue);
+  }
+  if (linecounter >=intersectThresh){
+    turn(dir, 200, true);
+    linecounter=0;
   }
     return;
 
 }
 
- /* else if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for turning left.
-    linecounter = linecounter +1;
-      digitalWrite (RDirection, HIGH);//left wheel direction
-      analogWrite (RSpeed, targetspeed);//left wheel speed
-      digitalWrite (LDirection, HIGH);//right wheel direction
-      analogWrite (LSpeed, targetspeed);//right wheel speed
-  }
-  else if (centerSensorValue >= BlackTHRESH && leftsensorValue >= BlackTHRESH && rightSonsorValue >= BlackTHRESH) {//for turning right.
-    linecounter = linecounter +1;
-    turn(true, currentSpeed, aggressive);
-      digitalWrite (RDirection, HIGH);//left wheel direction
-      analogWrite (RSpeed, targetspeed);//left wheel speed
-      digitalWrite (LDirection, HIGH);//right wheel direction
-      analogWrite (LSpeed, targetspeed);//right wheel speed
-  }
-
-*/
 // ---------------------------------------------
 
 
@@ -148,16 +145,16 @@ void turn(boolean dir, int Speed, boolean aggressive) {
   // Set the motors to go forward
       forward(Speed);
 
-  // If turning right
+  // If turning right is true
   if (dir) {
     analogWrite(RSpeed, aggressive ? (Speed / 4) : (Speed / 2));
     analogWrite(LSpeed, Speed);
   }
 
-  // turrning left
+  // turning left is false
   else {
     analogWrite(RSpeed, Speed);
     analogWrite(LSpeed, aggressive ? (Speed / 4) : (Speed / 2));
   }
-
+return;
 }
