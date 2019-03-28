@@ -47,15 +47,16 @@ void setup() {
   pinMode(RSpeed, OUTPUT);
   pinMode(LSpeed, OUTPUT);
   pinMode(RDirection, OUTPUT);
-  pinMode(LDirection, OUTPUT); 
+  pinMode(LDirection, OUTPUT); x
 //---------------------------------wheel encoder codes
   pinMode (WheelEncoderLeftpin, INPUT);  
   pinMode (WheelEncoderRightpin, INPUT); 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-    followLine(180, 2, false);
-    
+ // put your main code here, to run repeatedly:
+//    followLine(110, 2, false);
+  forward(100);
+  
 
 }

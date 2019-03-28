@@ -112,16 +112,16 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
 
   }
 if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-   intersect(leftSensorValue,centerSensorValue, rightSensorValue, intersectThresh, dir);
+   intersect(leftSensorValue,centerSensorValue, rightSensorValue, intersectThresh, dir, currentSpeed);
  }
   return;
   }
 
 //-------------------------intersection------------------------ 
-void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue, int intersectThresh , boolean dir){
+void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue, int intersectThresh , boolean dir, int currentSpeed){
   linecounter = linecounter +1;
   while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){  
-  forward(180);
+  forward(currentSpeed);
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
@@ -130,7 +130,7 @@ void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorVa
       Serial.println(rightSensorValue);
   }
   if (linecounter >=intersectThresh){
-    turn(dir, 200, true);
+    turn(dir, currentSpeed, true);
     linecounter=0;
   }
     return;
