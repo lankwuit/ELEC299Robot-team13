@@ -14,10 +14,10 @@
 #define BlackTHRESH 900
 
 //-----------------------------------------motor phase
-#define RDirection 6  // RIGHT MOTOR DIRECTION
-#define RSpeed 5 // RIGHT MOTOR SPEED
-#define LDirection 3 // LEFT MOTOR DIRECTION
-#define LSpeed 4 // LEFT MOTOR SPEED
+#define RDirection 7  // RIGHT MOTOR DIRECTION
+#define RSpeed 6 // RIGHT MOTOR SPEED
+#define LDirection 2 // LEFT MOTOR DIRECTION
+#define LSpeed 3 // LEFT MOTOR SPEED
 
 //------------------------------------------define line tracking IR pin settings--------------------------------------------------------------
 
@@ -47,7 +47,7 @@ void setup() {
   pinMode(RSpeed, OUTPUT);
   pinMode(LSpeed, OUTPUT);
   pinMode(RDirection, OUTPUT);
-  pinMode(LDirection, OUTPUT); x
+  pinMode(LDirection, OUTPUT); 
 //---------------------------------wheel encoder codes
   pinMode (WheelEncoderLeftpin, INPUT);  
   pinMode (WheelEncoderRightpin, INPUT); 
@@ -55,8 +55,8 @@ void setup() {
 
 void loop() {
  // put your main code here, to run repeatedly:
-//    followLine(110, 2, false);
-  forward(100);
-  
+    followLine(100, 2, false);
+//  forward(100);
+
 
 }

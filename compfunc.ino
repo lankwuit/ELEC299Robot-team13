@@ -55,18 +55,19 @@ int countEncoderRIGHT(){// input the revolution counter pin and reutn how much 6
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-int IRblackReading(int ir){
+int IRReading(int ir){
   int readval=analogRead(ir);
   return readval;
 }
 
 //-------------------------------------------------------
 void forward(int targetspeed){//input the pin for motor direction, speed etc pins)
-      digitalWrite (RDirection, HIGH);//left wheel direction
+      digitalWrite (RDirection, LOW);//left wheel direction
       analogWrite (RSpeed, targetspeed);//left wheel speed
-      digitalWrite (LDirection, HIGH);//right wheel direction
+      digitalWrite (LDirection, HIGH);//right wheel direction 
       analogWrite (LSpeed, targetspeed);//right wheel speed
-      return;
+      return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
+      
 }
 void palse(){
      int left_speed =0, right_speed = 0;
@@ -91,46 +92,58 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-  Serial.println(centerSensorValue);
-    Serial.println(leftSensorValue);
-      Serial.println(rightSensorValue);
+  testing( centerSensorValue, leftSensorValue, rightSensorValue);
 
   // If only the middle sensor is over the line, drive forward
   if (centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH) { //forward
     forward(currentSpeed);
-  }
+  } 
 
   // If the right sensor is over the line, turn right
-  if (leftSensorValue < BlackTHRESH && rightSensorValue >= BlackTHRESH) {
+ else if (leftSensorValue < BlackTHRESH && rightSensorValue >= BlackTHRESH) {
     turn(true, currentSpeed, false); //RIGHT means 1 LEFT means 0
-
   }
 
   // If the left sensor is over the line, turn left
   else if (leftSensorValue >= BlackTHRESH && rightSensorValue < BlackTHRESH) {
     turn(false, currentSpeed, false);
-
   }
-if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-   intersect(leftSensorValue,centerSensorValue, rightSensorValue, intersectThresh, dir, currentSpeed);
+  else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
+    delay(500);
+      int leftSensorValue = analogRead(LIRpin);
+      int centerSensorValue = analogRead(MIRpin);
+      int rightSensorValue = analogRead(RIRpin);
+ 
+      testing( centerSensorValue, leftSensorValue, rightSensorValue);
+    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
+           Serial.println("Intersection recognized");
+   intersect( intersectThresh, dir, currentSpeed);
+    }else{
+      return;
+    }
  }
+ Serial. print("linecounter                     ");
+ Serial.println(linecounter);
   return;
   }
 
 //-------------------------intersection------------------------ 
-void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue, int intersectThresh , boolean dir, int currentSpeed){
+void intersect( int intersectThresh , boolean dir, int currentSpeed){
   linecounter = linecounter +1;
+  int leftSensorValue = analogRead(LIRpin);
+  int centerSensorValue = analogRead(MIRpin);
+  int rightSensorValue = analogRead(RIRpin);
   while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){  
   forward(currentSpeed);
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-    Serial.println(centerSensorValue);
-    Serial.println(leftSensorValue);
-      Serial.println(rightSensorValue);
+  testing( centerSensorValue, leftSensorValue, rightSensorValue);
+      Serial.println("mutsuki daisuki");
   }
   if (linecounter >=intersectThresh){
     turn(dir, currentSpeed, true);
+    delay(200);
     linecounter=0;
   }
     return;
@@ -157,4 +170,15 @@ void turn(boolean dir, int Speed, boolean aggressive) {
     analogWrite(LSpeed, aggressive ? (Speed / 4) : (Speed / 2));
   }
 return;
+}
+
+//------------------------------void testing
+void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
+/*    Serial.print("center         ");
+  Serial.println(centerSensorValue);
+    Serial.print("left         ");
+    Serial.println(leftSensorValue);
+      Serial.print("right         ");
+      Serial.println(rightSensorValue);*/
+      return;
 }

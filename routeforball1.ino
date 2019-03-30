@@ -1,3 +1,4 @@
-void firstball(){
-  followLine(100, !true);
-}
+/*void firstball(){
+  intersect(100, false);
+  return;
+}*/
