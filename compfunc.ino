@@ -85,10 +85,15 @@ void palse(){
 }
 
 //----------------------------turnaround codes-------
-void turnAround(){
+void turnAround(int currentSpeed){
   reverse(100);
   delay(200);
-  
+  int centerSensorValue;
+    do{ centerSensorValue = analogRead(MIRpin);
+        testing( centerSensorValue, -1,-1);
+        turn(true, currentSpeed, true);
+    }while(centerSensorValue<BlackTHRESH);
+    return;
 }
 
 //-------------------------------------------------
@@ -124,7 +129,7 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
     turn(false, currentSpeed, false);
   }
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-    delay(500);
+    delay(200);
       int leftSensorValue = analogRead(LIRpin);
       int centerSensorValue = analogRead(MIRpin);
       int rightSensorValue = analogRead(RIRpin);
@@ -157,9 +162,13 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
 
   }
   if (linecounter >=intersectThresh){
-    turn(dir, currentSpeed, true);
-    delay(200);
-    linecounter=0;
+            turn(dir, currentSpeed, true);
+            delay(500);
+    do{ centerSensorValue = analogRead(MIRpin);
+        testing( centerSensorValue, leftSensorValue, rightSensorValue);
+        turn(dir, currentSpeed, true);
+    }while(centerSensorValue<BlackTHRESH);
+
   }
     return;
 
@@ -187,9 +196,15 @@ void turn(boolean dir, int Speed, boolean aggressive) {
 return;
 }
 //---------------------------bumper codes---------------
-int bumper(){
-  int bumperStatus= digitalRead(bumperpin);
-  return bumperStatus;
+int bumper(){ //--------bumper shows 1 when clicked, shows 0 when released
+  int bumperLeftStatus= digitalRead(bumperpinleft);
+  int bumperRightStatus= digitalRead(bumperpinright);
+ if(!bumperLeftStatus || !bumperRightStatus) {
+  return 1;
+ }else{
+  return 0;
+ }
+
 }
 
 

@@ -33,7 +33,8 @@
 #define prespin 9
 
 //---------------------------------------Bumper codes--------------
-#define bumperpin 0
+#define bumperpinleft 13
+#define bumperpinright 5
 
 
 QSerial myIRS;
@@ -53,12 +54,14 @@ void setup() {
 //---------------------------------wheel encoder codes
   pinMode (WheelEncoderLeftpin, INPUT);  
   pinMode (WheelEncoderRightpin, INPUT); 
-  pinMode (bumperpin, INPUT);
+  pinMode (bumperpinleft, INPUT);
+  pinMode (bumperpinright, INPUT);
 }
 
 void loop() {
  // put your main code here, to run repeatedly:
-    followLine(120, 10, false);
+ Serial.print(bumper());
+//    followLine(120, 10, false);
 //  forward(100);
 
 
