@@ -1,4 +1,4 @@
-/*void firstball(){
-  intersect(100, false);
+void firstball(int speed){
+    followLine(speed, 10, false);
   return;
-}*/
+}

@@ -69,11 +69,26 @@ void forward(int targetspeed){//input the pin for motor direction, speed etc pin
       return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
       
 }
+void reverse(int targetspeed){//input the pin for motor direction, speed etc pins)
+      digitalWrite (RDirection, HIGH);//left wheel direction backword
+      analogWrite (RSpeed, targetspeed);//left wheel speed
+      digitalWrite (LDirection, LOW);//right wheel direction backward 
+      analogWrite (LSpeed, targetspeed);//right wheel speed
+      return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
+}
+
 void palse(){
      int left_speed =0, right_speed = 0;
       forward(0);
     delay(1000);
     return;
+}
+
+//----------------------------turnaround codes-------
+void turnAround(){
+  reverse(100);
+  delay(200);
+  
 }
 
 //-------------------------------------------------
@@ -139,7 +154,7 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
   testing( centerSensorValue, leftSensorValue, rightSensorValue);
-      Serial.println("mutsuki daisuki");
+
   }
   if (linecounter >=intersectThresh){
     turn(dir, currentSpeed, true);
@@ -160,17 +175,24 @@ void turn(boolean dir, int Speed, boolean aggressive) {
 
   // If turning right is true
   if (dir) {
-    analogWrite(RSpeed, aggressive ? (Speed / 4) : (Speed / 2));
+    analogWrite(RSpeed, aggressive ? (Speed / 10) : (Speed / 2));
     analogWrite(LSpeed, Speed);
   }
 
   // turning left is false
   else {
     analogWrite(RSpeed, Speed);
-    analogWrite(LSpeed, aggressive ? (Speed / 4) : (Speed / 2));
+    analogWrite(LSpeed, aggressive ? (Speed / 10) : (Speed / 2));
   }
 return;
 }
+//---------------------------bumper codes---------------
+int bumper(){
+  int bumperStatus= digitalRead(bumperpin);
+  return bumperStatus;
+}
+
+
 
 //------------------------------void testing
 void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){

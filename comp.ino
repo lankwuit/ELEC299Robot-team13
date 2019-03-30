@@ -32,7 +32,9 @@
 //---------------------------------------------------pressure sensor definition------------------------------------
 #define prespin 9
 
-//---------------------------------------
+//---------------------------------------Bumper codes--------------
+#define bumperpin 0
+
 
 QSerial myIRS;
 
@@ -51,11 +53,12 @@ void setup() {
 //---------------------------------wheel encoder codes
   pinMode (WheelEncoderLeftpin, INPUT);  
   pinMode (WheelEncoderRightpin, INPUT); 
+  pinMode (bumperpin, INPUT);
 }
 
 void loop() {
  // put your main code here, to run repeatedly:
-    followLine(100, 2, false);
+    followLine(120, 10, false);
 //  forward(100);
 
 
