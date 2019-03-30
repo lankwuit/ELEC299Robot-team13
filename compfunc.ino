@@ -129,18 +129,19 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
     turn(false, currentSpeed, false);
   }
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-    delay(200);
-      int leftSensorValue = analogRead(LIRpin);
-      int centerSensorValue = analogRead(MIRpin);
-      int rightSensorValue = analogRead(RIRpin);
+    delay(500);
+      leftSensorValue = analogRead(LIRpin);
+      centerSensorValue = analogRead(MIRpin);
+      rightSensorValue = analogRead(RIRpin);
  
       testing( centerSensorValue, leftSensorValue, rightSensorValue);
-    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
+//    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
            Serial.println("Intersection recognized");
    intersect( intersectThresh, dir, currentSpeed);
-    }else{
-      return;
-    }
+   return;
+//    }else{
+ //     return;
+//    }
  }
  Serial. print("linecounter                     ");
  Serial.println(linecounter);
@@ -153,15 +154,19 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-  while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){  
-  forward(currentSpeed);
-  int leftSensorValue = analogRead(LIRpin);
-  int centerSensorValue = analogRead(MIRpin);
-  int rightSensorValue = analogRead(RIRpin);
+  while(1){  
+    forward(currentSpeed);
+   leftSensorValue = analogRead(LIRpin);
+   centerSensorValue = analogRead(MIRpin);
+   rightSensorValue = analogRead(RIRpin);
   testing( centerSensorValue, leftSensorValue, rightSensorValue);
-
+  if(leftSensorValue <BlackTHRESH || centerSensorValue<BlackTHRESH || rightSensorValue<BlackTHRESH){
+    break;
+  }
+  Serial.print("in the intersection checking loop");
   }
   if (linecounter >=intersectThresh){
+    Serial.println("time to turn");
             turn(dir, currentSpeed, true);
             delay(500);
     do{ centerSensorValue = analogRead(MIRpin);
@@ -211,11 +216,11 @@ int bumper(){ //--------bumper shows 1 when clicked, shows 0 when released
 
 //------------------------------void testing
 void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
-/*    Serial.print("center         ");
+    Serial.print("center         ");
   Serial.println(centerSensorValue);
     Serial.print("left         ");
     Serial.println(leftSensorValue);
       Serial.print("right         ");
-      Serial.println(rightSensorValue);*/
+      Serial.println(rightSensorValue);
       return;
 }

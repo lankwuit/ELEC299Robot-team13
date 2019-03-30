@@ -11,7 +11,7 @@
 //#define pushpin // this may not even be necessary
 
 //-----------------------------------------------BLCKLINE threshold definition------
-#define BlackTHRESH 900
+#define BlackTHRESH 700
 
 //-----------------------------------------motor phase
 #define RDirection 7  // RIGHT MOTOR DIRECTION
@@ -60,8 +60,11 @@ void setup() {
 
 void loop() {
  // put your main code here, to run repeatedly:
- Serial.print(bumper());
-//    followLine(120, 10, false);
+// Serial.print(bumper());
+
+
+//  turn(true, 100, true);
+    followLine(120, 2, false);
 //  forward(100);
 
 
