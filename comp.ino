@@ -1,4 +1,4 @@
-
+#include <Servo.h>
 #include "QSerial.h"
 
 
@@ -24,9 +24,7 @@
 #define LIRpin A0  //LEFT PIN FOR DETECTING BLACKLINE
 #define MIRpin A2
 #define RIRpin A1
-//------------------------------------------------------wheel encoders---------------------------------------
-#define WheelEncoderLeftpin 12
-#define WheelEncoderRightpin 13
+
 
 
 //---------------------------------------------------pressure sensor definition------------------------------------
@@ -35,8 +33,14 @@
 //---------------------------------------Bumper codes--------------
 #define bumperpinleft 13
 #define bumperpinright 5
+//--------------------------------------------------Grippercodes
+#define GripSensorpin A3
+#define Elevatorpin 10
+#define Gripperpin 11
 
 
+
+Servo Elevator, Gripper;
 QSerial myIRS;
 
 void setup() {
@@ -52,22 +56,25 @@ void setup() {
   pinMode(RDirection, OUTPUT);
   pinMode(LDirection, OUTPUT); 
 //---------------------------------wheel encoder codes
-  pinMode (WheelEncoderLeftpin, INPUT);  
-  pinMode (WheelEncoderRightpin, INPUT); 
+//  pinMode (WheelEncoderLeftpin, INPUT);  
+// pinMode (WheelEncoderRightpin, INPUT); 
   pinMode (bumperpinleft, INPUT);
   pinMode (bumperpinright, INPUT);
+  Elevator.attach(Elevatorpin);//myservo1 is for Elevator
+  Gripper.attach(Gripperpin);// myservo2 is for Gripper
 }
 
 void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
-
-
+initializing();
+grabbing();
+//initializing();
 //  turn(true, 100, true);
-    followLine(120, 2, false);
-    if(bumper()){
-      turnAround(120);
-    }
+//    followLine(120, 2, false);
+//    if(bumper()){
+//      turnAround(120);
+//    }
 //  forward(100);
 
 

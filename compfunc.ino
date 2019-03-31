@@ -32,7 +32,7 @@ int receiver(QSerial myIRS){
   }
 }
 //----------------------------------------------------------------------------------------------------------------------
-int countEncoderLEFT(){// input the revolution counter pin and reutn how much 60 degrees has been experienced
+/*int countEncoderLEFT(){// input the revolution counter pin and reutn how much 60 degrees has been experienced
   int store = 0;
   int rev1 = digitalRead(WheelEncoderLeftpin);
   if (rev1==HIGH){
@@ -53,7 +53,7 @@ int countEncoderRIGHT(){// input the revolution counter pin and reutn how much 6
   }
   return ;
 }
-
+*/
 //-----------------------------------------------------------------------------------------------------------------------
 int IRReading(int ir){
   int readval=analogRead(ir);
@@ -250,4 +250,59 @@ void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
       Serial.print("right         ");
       Serial.println(rightSensorValue);
       return;
+}
+//-----------------------------------------------------WALL AND GRIPPING DETECTION----------------------------------
+
+void wallinfront(){
+  if(bumper()){
+    BallCatching();
+  }
+  return;
+}
+
+void homeinfront(){
+  if(bumper()){
+    BallDropping();
+  }
+  return;
+}
+
+//-----------------------------------------------------gripper---------
+
+int grabbing(){
+  int GripSense = analogRead(GripSensorpin);
+  int graforce=10;
+  while(GripSense>240){
+    Gripper.write(graforce++);
+    GripSense=analogRead(GripSensorpin);
+    delay(20);
+    Serial.println(GripSense);
+  }
+  Serial.println("grabbbbbed");
+  return 1;
+}
+
+void BallCatching(){
+  Serial.println("ball catching");
+  Elevator.write(90);
+  Gripper.write(10);
+  if(grabbing()){
+    Elevator.write(180);
+  }
+  return;
+}
+
+void BallDropping(){
+  Serial.println("ball dropping");
+  Elevator.write(90);
+  delay(1000);
+  Gripper.write(10);
+  Serial.println("dropped");
+}
+
+//-------------------------------gripper initializing-----------------------------------------
+void initializing(){
+  Elevator.write(180);
+  Gripper.write(10);
+  return;
 }
