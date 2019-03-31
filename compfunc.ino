@@ -69,6 +69,14 @@ void forward(int targetspeed){//input the pin for motor direction, speed etc pin
       return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
       
 }
+void pause(){//input the pin for motor direction, speed etc pins)
+      digitalWrite (RDirection, LOW);//left wheel direction
+      analogWrite (RSpeed, 0);//left wheel speed
+      digitalWrite (LDirection, HIGH);//right wheel direction 
+      analogWrite (LSpeed, 0);//right wheel speed
+      return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
+      
+}
 void reverse(int targetspeed){//input the pin for motor direction, speed etc pins)
       digitalWrite (RDirection, HIGH);//left wheel direction backword
       analogWrite (RSpeed, targetspeed);//left wheel speed
@@ -254,7 +262,9 @@ void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
 //-----------------------------------------------------WALL AND GRIPPING DETECTION----------------------------------
 
 void wallinfront(){
+  
   if(bumper()){
+    pause();
     BallCatching();
   }
   return;
@@ -262,6 +272,7 @@ void wallinfront(){
 
 void homeinfront(){
   if(bumper()){
+    pause();
     BallDropping();
   }
   return;

@@ -68,7 +68,7 @@ void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
 initializing();
-grabbing();
+firstBall(120);
 //initializing();
 //  turn(true, 100, true);
 //    followLine(120, 2, false);
