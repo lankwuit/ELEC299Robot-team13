@@ -17,7 +17,7 @@ void secondBall(int speed){
     
   turnAround(speed);
   forward(speed);
-  delay(1000);//skip the first one
+  delay(500);//skip the first one
 
     GoforIntersection(speed, 1, true);
   
