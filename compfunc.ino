@@ -55,23 +55,44 @@ int countEncoderRIGHT(){// input the revolution counter pin and reutn how much 6
 }
 
 //-----------------------------------------------------------------------------------------------------------------------
-int IRblackReading(int ir){
+int IRReading(int ir){
   int readval=analogRead(ir);
   return readval;
 }
 
 //-------------------------------------------------------
 void forward(int targetspeed){//input the pin for motor direction, speed etc pins)
-      digitalWrite (RDirection, HIGH);//left wheel direction
+      digitalWrite (RDirection, LOW);//left wheel direction
       analogWrite (RSpeed, targetspeed);//left wheel speed
-      digitalWrite (LDirection, HIGH);//right wheel direction
+      digitalWrite (LDirection, HIGH);//right wheel direction 
       analogWrite (LSpeed, targetspeed);//right wheel speed
-      return;
+      return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
+      
 }
+void reverse(int targetspeed){//input the pin for motor direction, speed etc pins)
+      digitalWrite (RDirection, HIGH);//left wheel direction backword
+      analogWrite (RSpeed, targetspeed);//left wheel speed
+      digitalWrite (LDirection, LOW);//right wheel direction backward 
+      analogWrite (LSpeed, targetspeed);//right wheel speed
+      return;//           THIS IS UNIQUE TO OUR ROBOT, PLS DONT COPY DIRECTLY
+}
+
 void palse(){
      int left_speed =0, right_speed = 0;
       forward(0);
     delay(1000);
+    return;
+}
+
+//----------------------------turnaround codes-------
+void turnAround(int currentSpeed){
+  reverse(100);
+  delay(200);
+  int centerSensorValue;
+    do{ centerSensorValue = analogRead(MIRpin);
+        testing( centerSensorValue, -1,-1);
+        turn(true, currentSpeed, true);
+    }while(centerSensorValue<BlackTHRESH);
     return;
 }
 
@@ -91,47 +112,68 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-  Serial.println(centerSensorValue);
-    Serial.println(leftSensorValue);
-      Serial.println(rightSensorValue);
+  testing( centerSensorValue, leftSensorValue, rightSensorValue);
 
   // If only the middle sensor is over the line, drive forward
   if (centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH) { //forward
     forward(currentSpeed);
-  }
+  } 
 
   // If the right sensor is over the line, turn right
-  if (leftSensorValue < BlackTHRESH && rightSensorValue >= BlackTHRESH) {
+ else if (leftSensorValue < BlackTHRESH && rightSensorValue >= BlackTHRESH) {
     turn(true, currentSpeed, false); //RIGHT means 1 LEFT means 0
-
   }
 
   // If the left sensor is over the line, turn left
   else if (leftSensorValue >= BlackTHRESH && rightSensorValue < BlackTHRESH) {
     turn(false, currentSpeed, false);
-
   }
-if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-   intersect(leftSensorValue,centerSensorValue, rightSensorValue, intersectThresh, dir, currentSpeed);
+  else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
+    delay(500);
+      leftSensorValue = analogRead(LIRpin);
+      centerSensorValue = analogRead(MIRpin);
+      rightSensorValue = analogRead(RIRpin);
+ 
+      testing( centerSensorValue, leftSensorValue, rightSensorValue);
+//    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
+           Serial.println("Intersection recognized");
+   intersect( intersectThresh, dir, currentSpeed);
+   return;
+//    }else{
+ //     return;
+//    }
  }
+ Serial. print("linecounter                     ");
+ Serial.println(linecounter);
   return;
   }
 
 //-------------------------intersection------------------------ 
-void intersect(  int leftSensorValue,  int centerSensorValue,  int rightSensorValue, int intersectThresh , boolean dir, int currentSpeed){
+void intersect( int intersectThresh , boolean dir, int currentSpeed){
   linecounter = linecounter +1;
-  while(centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){  
-  forward(currentSpeed);
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
   int rightSensorValue = analogRead(RIRpin);
-    Serial.println(centerSensorValue);
-    Serial.println(leftSensorValue);
-      Serial.println(rightSensorValue);
+  while(1){  
+    forward(currentSpeed);
+   leftSensorValue = analogRead(LIRpin);
+   centerSensorValue = analogRead(MIRpin);
+   rightSensorValue = analogRead(RIRpin);
+  testing( centerSensorValue, leftSensorValue, rightSensorValue);
+  if(leftSensorValue <BlackTHRESH || centerSensorValue<BlackTHRESH || rightSensorValue<BlackTHRESH){
+    break;
+  }
+  Serial.print("in the intersection checking loop");
   }
   if (linecounter >=intersectThresh){
-    turn(dir, currentSpeed, true);
-    linecounter=0;
+    Serial.println("time to turn");
+            turn(dir, currentSpeed, true);
+            delay(500);
+    do{ centerSensorValue = analogRead(MIRpin);
+        testing( centerSensorValue, leftSensorValue, rightSensorValue);
+        turn(dir, currentSpeed, true);
+    }while(centerSensorValue<BlackTHRESH);
+
   }
     return;
 
@@ -147,14 +189,59 @@ void turn(boolean dir, int Speed, boolean aggressive) {
 
   // If turning right is true
   if (dir) {
-    analogWrite(RSpeed, aggressive ? (Speed / 4) : (Speed / 2));
+    analogWrite(RSpeed, aggressive ? (Speed / 10) : (Speed / 2));
     analogWrite(LSpeed, Speed);
   }
 
   // turning left is false
   else {
     analogWrite(RSpeed, Speed);
-    analogWrite(LSpeed, aggressive ? (Speed / 4) : (Speed / 2));
+    analogWrite(LSpeed, aggressive ? (Speed / 10) : (Speed / 2));
   }
 return;
+}
+//---------------------------bumper codes---------------
+int bumper(){ //--------bumper shows 1 when clicked, shows 0 when released
+  int bumperLeftStatus= digitalRead(bumperpinleft);
+  int bumperRightStatus= digitalRead(bumperpinright);
+ if(!bumperLeftStatus || !bumperRightStatus) {
+  return 1;
+ }else{
+  return 0;
+ }
+
+}
+
+
+
+//------------------------------void testing
+void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
+    Serial.print("center         ");
+  Serial.println(centerSensorValue);
+    Serial.print("left         ");
+    Serial.println(leftSensorValue);
+      Serial.print("right         ");
+      Serial.println(rightSensorValue);
+      return;
+}
+
+//--------------------------------grabbers
+void grabBalls(){
+  int bumpers = bumper();
+  if(bumpers == 1){
+    digitalWrite(11, 1); //1 = open grabber, 0 = close grabber 
+    //adjust height
+    delay(500);
+    digitalWrite(11, 0); //closes on ball
+    turnAround(int speed);
+  }
+}
+
+void releaseBalls(){
+  int bumpers = bumper();
+  if(bumpers == 1){
+    digitalWrite(11, 1);
+    digitalWrite(11, 0);
+    turnAround(int speed); 
+  }
 }
