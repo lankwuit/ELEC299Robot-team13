@@ -65,6 +65,9 @@ void loop() {
 
 //  turn(true, 100, true);
     followLine(120, 2, false);
+    if(bumper()){
+      turnAround(120);
+    }
 //  forward(100);
 
 

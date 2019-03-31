@@ -87,11 +87,12 @@ void palse(){
 //----------------------------turnaround codes-------
 void turnAround(int currentSpeed){
   reverse(100);
-  delay(200);
+  delay(800);
+  stationaryturn(true, currentSpeed);
+  delay(1000);
   int centerSensorValue;
     do{ centerSensorValue = analogRead(MIRpin);
-        testing( centerSensorValue, -1,-1);
-        turn(true, currentSpeed, true);
+        stationaryturn(true, currentSpeed);
     }while(centerSensorValue<BlackTHRESH);
     return;
 }
@@ -129,12 +130,12 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
     turn(false, currentSpeed, false);
   }
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-    delay(500);
-      leftSensorValue = analogRead(LIRpin);
-      centerSensorValue = analogRead(MIRpin);
-      rightSensorValue = analogRead(RIRpin);
+//    delay(500);
+//      leftSensorValue = analogRead(LIRpin);
+//      centerSensorValue = analogRead(MIRpin);
+//      rightSensorValue = analogRead(RIRpin);
  
-      testing( centerSensorValue, leftSensorValue, rightSensorValue);
+//      testing( centerSensorValue, leftSensorValue, rightSensorValue);
 //    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
            Serial.println("Intersection recognized");
    intersect( intersectThresh, dir, currentSpeed);
@@ -143,7 +144,7 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
  //     return;
 //    }
  }
- Serial. print("linecounter                     ");
+ Serial.print("linecounter                     ");
  Serial.println(linecounter);
   return;
   }
@@ -200,6 +201,32 @@ void turn(boolean dir, int Speed, boolean aggressive) {
   }
 return;
 }
+
+//-------------------------------------------
+
+void stationaryturn(boolean dir, int Speed) {
+
+  // Set the motors to go forward
+      forward(Speed);
+
+  // If turning right is true
+  if (dir) {
+      digitalWrite (RDirection, LOW);//left wheel direction
+      digitalWrite (LDirection, LOW);//right wheel direction 
+    analogWrite(RSpeed, Speed);
+    analogWrite(LSpeed, Speed);
+  }
+
+  // turning left is false
+  else {
+    digitalWrite (RDirection, HIGH);//left wheel direction
+    digitalWrite (LDirection, HIGH);//right wheel direction 
+    analogWrite(RSpeed, Speed);
+    analogWrite(LSpeed, Speed);
+  }
+return;
+}
+
 //---------------------------bumper codes---------------
 int bumper(){ //--------bumper shows 1 when clicked, shows 0 when released
   int bumperLeftStatus= digitalRead(bumperpinleft);
