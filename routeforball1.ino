@@ -13,27 +13,31 @@ void firstBall(int speed){
   homeinfront();
   //release ball
   turnAround(speed); //come back to original position
-    return;
 }
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-/*//Route to pick up second ball (ball 1)
+//Route to pick up second ball (ball 1)
 void secondBall(int speed){
   followLine(speed, 1, false);
   do{
-    if (bumpers){
-    //grab ball
-    wallinfront();
+    if (bumper()){
+      //grab ball
+      wallinfront();
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
   turnAround(speed);
   followLine(speed, 2, true);
   do{
-    bumpers = bumper();
-    if(bumpers == 1){
-      //release ball
+    if(bumper()){
+      homeinfront();
       turnAround(speed); //come back to original position
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -41,20 +45,25 @@ void secondBall(int speed){
 void thirdBall(int speed){
   followLine(speed, 5, false);
   do{
-    bumpers = bumper();
-    if (bumpers == 1){
-    //grab ball
+    if (bumper()){
+      //grab ball
+      wallinfront();
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
   turnAround(speed);
   followLine(speed, 2, true);
   do{
-    bumpers = bumper();
-    if(bumpers == 1){
-      //release ball
+    if(bumper()){
+      homeinfront();
       turnAround(speed); //come back to original position
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -62,20 +71,25 @@ void thirdBall(int speed){
 void fourthBall(int speed){
   followLine(speed, 6, true);
   do{
-    bumpers = bumper();
-    if (bumpers == 1){
-    //grab ball
+    if (bumper()){
+      //grab ball
+      wallinfront();
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
   turnAround(speed);
   followLine(speed, 3, false);
   do{
-    bumpers = bumper();
-    if(bumpers == 1){
-      //release ball
-      turnAround(speed); //come back to position 1 (NOT ORIGINAL POSITION)
+    if(bumper()){
+      homeinfront();
+      turnAround(speed); //come back to original position
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -83,18 +97,23 @@ void fourthBall(int speed){
 void fifthBall(int speed){
   followLine(speed, 3, true); //starting from position 1 not 0
   do{
-    bumpers = bumper();
-    if (bumpers == 1){
-    //grab ball
+    if (bumper()){
+      //grab ball
+      wallinfront();
     }
-  }while(bumpers == 0);
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
   turnAround(speed);
   followLine(speed, 3, false);
   do{
-    bumpers = bumper();
-    if(bumpers == 1){
-      //release ball
-      turnAround(speed); //come back to position 1 (NOT ORIGINAL POSITION)
+    if(bumper()){
+      homeinfront();
+      turnAround(speed); //come back to original position
     }
-  }while(bumpers == 0);
-}*/
+    else{
+      followLine(speed, 10, false);
+    }
+  }while(!bumper());
+}
