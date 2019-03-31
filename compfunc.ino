@@ -95,15 +95,22 @@ void palse(){
 //----------------------------turnaround codes-------
 void turnAround(int currentSpeed){
   reverse(100);
-  delay(800);
+  delay(100);
   stationaryturn(true, currentSpeed);
-  delay(1000);
-  int centerSensorValue;
-    do{ centerSensorValue = analogRead(MIRpin);
+  delay(1600);
+  int centerSensorValue,leftSensorValue,rightSensorValue;
+    while(1){ centerSensorValue = analogRead(MIRpin);
+        leftSensorValue = analogRead(LIRpin);
+        rightSensorValue = analogRead(RIRpin);
         stationaryturn(true, currentSpeed);
-    }while(centerSensorValue<BlackTHRESH);
+        if(centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH){
+          break;
+        }
+    }
+     linecounter=0;
     return;
 }
+
 
 //-------------------------------------------------
 int isBluetooth(){
@@ -115,7 +122,7 @@ int isBluetooth(){
 }
 //---------------------------------rrcode-----------------
 
-void followLine(int currentSpeed, int intersectThresh, boolean dir) {
+int followLine(int currentSpeed, int intersectThresh, boolean dir) {
 
   // Get the sensor readings
   int leftSensorValue = analogRead(LIRpin);
@@ -138,23 +145,14 @@ void followLine(int currentSpeed, int intersectThresh, boolean dir) {
     turn(false, currentSpeed, false);
   }
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
-//    delay(500);
-//      leftSensorValue = analogRead(LIRpin);
-//      centerSensorValue = analogRead(MIRpin);
-//      rightSensorValue = analogRead(RIRpin);
- 
-//      testing( centerSensorValue, leftSensorValue, rightSensorValue);
-//    if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){// double if to prevent miss recognition
            Serial.println("Intersection recognized");
    intersect( intersectThresh, dir, currentSpeed);
-   return;
-//    }else{
- //     return;
-//    }
+   return 1;
+
  }
  Serial.print("linecounter                     ");
  Serial.println(linecounter);
-  return;
+  return 0;
   }
 
 //-------------------------intersection------------------------ 
@@ -264,7 +262,13 @@ void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
 void wallinfront(){
   
   if(bumper()){
+
+    reverse(100);
+    delay(500);
     pause();
+    delay(100);
+    Adjustment();
+    delay(500);
     BallCatching();
   }
   return;
@@ -283,11 +287,15 @@ void homeinfront(){
 int grabbing(){
   int GripSense = analogRead(GripSensorpin);
   int graforce=10;
-  while(GripSense>240){
+  while(GripSense>700){
     Gripper.write(graforce++);
     GripSense=analogRead(GripSensorpin);
     delay(20);
     Serial.println(GripSense);
+    if(graforce>200){
+      graforce=10;
+      delay(400);
+    }
   }
   Serial.println("grabbbbbed");
   return 1;
@@ -295,9 +303,13 @@ int grabbing(){
 
 void BallCatching(){
   Serial.println("ball catching");
-  Elevator.write(90);
+
+  Elevator.write(80);
   Gripper.write(10);
+  HorizontalDr.write(90);
   if(grabbing()){
+    reverse(100);
+    delay(100);
     Elevator.write(180);
   }
   return;
@@ -306,14 +318,79 @@ void BallCatching(){
 void BallDropping(){
   Serial.println("ball dropping");
   Elevator.write(90);
-  delay(1000);
+  HorizontalDr.write(90);
   Gripper.write(10);
   Serial.println("dropped");
+
 }
 
 //-------------------------------gripper initializing-----------------------------------------
 void initializing(){
   Elevator.write(180);
-  Gripper.write(10);
+  Gripper.write(30);
+  HorizontalDr.write(90);
+  linecounter=0;
   return;
+}
+
+void Adjustment() {
+  Elevator.write(100);
+  delay(500);
+  Gripper.write(180);
+   delay(500);
+  HorizontalDr.write(50);//left
+   delay(500);
+  Elevator.write(80);//down
+   delay(1000);
+   for(int i=50;i<=80;i++){
+    HorizontalDr.write(i);
+    Serial.println(i);
+    delay(20);
+   }//right
+  Elevator.write(110);//up
+   delay(500);
+  HorizontalDr.write(130);
+   delay(500);
+  Elevator.write(80);//down
+   delay(500);
+for(int i=130;i>=100;i--){
+    HorizontalDr.write(i);
+    delay(20);
+   }
+  Elevator.write(110);// up after gripping
+   delay(500);
+  HorizontalDr.write(90);//middle afterward
+   delay(500);
+  Gripper.write(30);
+  delay(500);
+  forward(100);
+  delay(100);
+  pause();
+    
+  return;
+  
+}
+
+int GoforIntersection(int speedi, int interTHRESH, boolean dir){
+  int para;
+    do{
+    para= followLine(speedi, interTHRESH, dir);
+  }while(!para);
+  return 1;
+}
+
+int GoforWall(int speedi){
+    do{
+    followLine(speedi, 10, false);
+  }while(!bumper()); 
+    wallinfront();
+    return 1;
+}
+int GoforHome(int speedi){
+do{
+    followLine(speedi, 10, false);
+  }while(!bumper());
+
+  homeinfront();
+  return 1;
 }

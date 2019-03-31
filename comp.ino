@@ -37,10 +37,11 @@
 #define GripSensorpin A3
 #define Elevatorpin 10
 #define Gripperpin 11
+#define HorizontalDrpin 8
 
 
 
-Servo Elevator, Gripper;
+Servo Elevator, Gripper, HorizontalDr;
 QSerial myIRS;
 
 void setup() {
@@ -62,14 +63,25 @@ void setup() {
   pinMode (bumperpinright, INPUT);
   Elevator.attach(Elevatorpin);//myservo1 is for Elevator
   Gripper.attach(Gripperpin);// myservo2 is for Gripper
+  HorizontalDr.attach(HorizontalDrpin);// Horizontal Dr is for the horizontal drive
 }
 
 void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
 initializing();
-firstBall(120);
+// position1(160);
+  firstBall(140);
+  secondBall(140);
+//Adjustment();
+//homeinfront();
+//grabbing();
 //initializing();
+//wallinfront();
+//int    GripSense=analogRead(GripSensorpin);
+
+//    Serial.println(GripSense);
+
 //  turn(true, 100, true);
 //    followLine(120, 2, false);
 //    if(bumper()){
