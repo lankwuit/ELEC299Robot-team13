@@ -10,7 +10,6 @@ void firstBall(int speed){
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Route to pick up second ball (ball 1)
 void secondBall(int speed){
-<<<<<<< HEAD
   initializing(); 
   GoforIntersection(speed, 1, false);
   
@@ -27,29 +26,6 @@ void secondBall(int speed){
   GoforHome(speed);
     
   turnAround(speed);
-=======
-  followLine(speed, 1, false);
-  do{
-    if (bumper()){
-      //grab ball
-      wallinfront();
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
-  turnAround(speed);
-  followLine(speed, 2, true);
-  do{
-    if(bumper()){
-      homeinfront();
-      turnAround(speed); //come back to original position
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
->>>>>>> 0509e928ecc20778e36c7f29d143bbc5545d8a85
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -60,17 +36,10 @@ void thirdBall(int speed){
     if (bumper()){
       //grab ball
       wallinfront();
-<<<<<<< HEAD
     }
     else{
       followLine(speed, 10, false);
     }
-=======
-    }
-    else{
-      followLine(speed, 10, false);
-    }
->>>>>>> 0509e928ecc20778e36c7f29d143bbc5545d8a85
   }while(!bumper());
   turnAround(speed);
   followLine(speed, 2, true);
@@ -119,17 +88,10 @@ void fifthBall(int speed){
     if (bumper()){
       //grab ball
       wallinfront();
-<<<<<<< HEAD
     }
     else{
       followLine(speed, 10, false);
     }
-=======
-    }
-    else{
-      followLine(speed, 10, false);
-    }
->>>>>>> 0509e928ecc20778e36c7f29d143bbc5545d8a85
   }while(!bumper());
   turnAround(speed);
   followLine(speed, 3, false);
@@ -137,7 +99,6 @@ void fifthBall(int speed){
     if(bumper()){
       homeinfront();
       turnAround(speed); //come back to original position
-<<<<<<< HEAD
     }
     else{
       followLine(speed, 10, false);
@@ -154,11 +115,3 @@ fourthBall(speedi);
 fifthBall(speedi);
 return;
 }
-=======
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
-}
->>>>>>> 0509e928ecc20778e36c7f29d143bbc5545d8a85
