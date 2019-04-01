@@ -18,7 +18,7 @@ void secondBall(int speed){
   turnAround(speed);
   forward(speed);
   delay(500);//skip the first one
-
+  sweep(); 
     GoforIntersection(speed, 1, true);
   
   //GoforIntersection(speed, 2, true);
@@ -36,6 +36,7 @@ void thirdBall(int speed){
   GoforWall(speed);
   turnAround(speed);
   forward(speed); 
+  sweep(); 
   GoforIntersection(speed, 2, true);
   GoforHome(speed);
   turnAround(speed);
@@ -50,6 +51,7 @@ void fourthBall(int speed){
   GoforWall(speed);
   turnAround(speed);
   forward(speed); 
+  sweep(); 
   GoforIntersection(speed, 3, false);
   GoforHome(speed);
   turnAround(speed);
@@ -59,15 +61,12 @@ void fourthBall(int speed){
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Route to pick up fifth ball (ball 14)
 void fifthBall(int speed){
-  followLine(speed, 3, true); //starting from position 1 not 0
-  
-  followLine(speed, 3, false);
-  
   initializing();
   GoforIntersection(speed, 3, true);
   GoforWall(speed);
   turnAround(speed);
   forward(speed); 
+  sweep(); 
   GoforIntersection(speed, 3, false);
   GoforHome(speed);
   turnAround(speed);
