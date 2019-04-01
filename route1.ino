@@ -1,17 +1,17 @@
 //Routes for position 1
 
-//route to get first ball (ball 8)
-void firstBall(int speed){
+//route to get first Ball1 (Ball1 8)
+void firstBall1(int speed){
   initializing();
   GoforWall(speed);
   turnAround(speed);
   GoforHome(speed);
-  //release ball
+  //release Ball1
   turnAround(speed); //come back to original position
 } 
 
-//route for second ball (ball 2)
-void secondBall(int speed){
+//route for second Ball1 (Ball1 2)
+void secondBall1(int speed){
   initializing();
   GoforIntersection(speed, 2, false);
   GoforWall(speed);
@@ -23,8 +23,8 @@ void secondBall(int speed){
   turnAround(speed);
 }
 
-//route for third ball (ball 5)
-void thirdBall(int speed){
+//route for third Ball1 (Ball1 5)
+void thirdBall1(int speed){
   initializing();
   GoforIntersection(speed, 6, false);
   GoforWall(speed);
@@ -36,8 +36,8 @@ void thirdBall(int speed){
   turnAround(speed);
 }
 
-//route for fourth ball (ball 12)
-void fourthBall(int speed){
+//route for fourth Ball1 (Ball1 12)
+void fourthBall1(int speed){
   initializing();
   GoforIntersection(speed, 5, true);
   GoforWall(speed);
@@ -49,8 +49,8 @@ void fourthBall(int speed){
   turnAround(speed);
 }
 
-//route for fifth ball
-void  fifthBall(int speed){
+//route for fifth Ball1
+void  fifthBall1(int speed){
   initializing();
   GoforIntersection(speed, 2, true);
   GoforWall(speed);
@@ -60,4 +60,13 @@ void  fifthBall(int speed){
   GoforIntersection(speed, 2, false);
   GoforHome(speed);
   turnAround(speed);
+}
+
+void position1(int speedi){
+  firstBall1(speedi);
+secondBall1(speedi);
+thirdBall1(speedi);
+fourthBall1(speedi);
+fifthBall1(speedi);
+return;
 }

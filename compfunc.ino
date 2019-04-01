@@ -217,16 +217,15 @@ void stationaryturn(boolean dir, int Speed) {
 
   // If turning right is true
   if (dir) {
-      digitalWrite (RDirection, LOW);//left wheel direction
-      digitalWrite (LDirection, LOW);//right wheel direction 
+    digitalWrite (RDirection, HIGH);//left wheel direction
+    digitalWrite (LDirection, HIGH);//right wheel direction 
     analogWrite(RSpeed, Speed);
     analogWrite(LSpeed, Speed);
   }
-
   // turning left is false
   else {
-    digitalWrite (RDirection, HIGH);//left wheel direction
-    digitalWrite (LDirection, HIGH);//right wheel direction 
+      digitalWrite (RDirection, LOW);//left wheel direction
+      digitalWrite (LDirection, LOW);//right wheel direction 
     analogWrite(RSpeed, Speed);
     analogWrite(LSpeed, Speed);
   }
@@ -393,4 +392,44 @@ do{
 
   homeinfront();
   return 1;
+}
+
+//----------------------------------------Sweep codes from group cooperation-----
+void sweep(){
+  
+  Serial.println("sweep started");
+  while (analogRead(MIRpin) <BlackTHRESH){
+   Serial.print(analogRead(MIRpin));
+    Serial.println();
+  
+    for(int i=90; i>0;i--){
+      delay(10);
+      digitalWrite(RDirection, HIGH);
+      digitalWrite(LDirection, HIGH);
+      analogWrite(RSpeed, 110);
+      analogWrite(LSpeed, 110);
+      if (analogRead(MIRpin)>1000){
+        break;
+      }
+      Serial.print(analogRead(MIRpin));
+      Serial.println();
+      }
+    
+
+     for(int i=180; i>0;i--){
+      delay(10);
+      digitalWrite(RDirection, LOW);
+      digitalWrite(LDirection, LOW);//unique to team 13's robot
+      analogWrite(RSpeed, 110);
+      analogWrite(LSpeed, 110);
+      if (analogRead(MIRpin)>1000){
+        break;
+      }
+      
+    }
+    
+    
+
+    
+  }
 }

@@ -70,9 +70,8 @@ void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
 initializing();
-// position1(160);
-  firstBall(140);
-  secondBall(140);
+ position2(140);
+
 //Adjustment();
 //homeinfront();
 //grabbing();
