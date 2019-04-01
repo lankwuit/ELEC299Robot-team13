@@ -1,122 +1,83 @@
-//Route to pick up first ball (ball 9)
-void firstBall(int speed){
-  do{
-    followLine(speed, 10, false);
-  }while(!bumper()); 
 
-  wallinfront();
+//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+------------------1-----------------
+void firstBall(int speed){
+  initializing();
+  GoforWall(speed);
   turnAround(speed);
-  do{
-    followLine(speed, 10, false);
-  }while(!bumper());
-  homeinfront();
+  GoforHome(speed);
   //release ball
   turnAround(speed); //come back to original position
 }
-//----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+//--------------2--------------------------------------------------------------------------------------------------------------------------------------------------------------
+//Route to pick up second ball (ball 3)
 //Route to pick up second ball (ball 3)
 void secondBall(int speed){
-  followLine(speed, 3, false);
-  do{
-    if (bumper()){
-      //grab ball
-      wallinfront();
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  initializing(); 
+  GoforIntersection(speed, 3, false);
+  
+  GoforWall(speed);
+    
   turnAround(speed);
-  followLine(speed, 4, true);
-  do{
-    if(bumper()){
-      homeinfront();
-      turnAround(speed); //come back to original position
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  forward(speed);
+  Sweep();
+  delay(500);//skip the first one
+
+    GoforIntersection(speed, 2, true);
+
+  GoforHome(speed);
+    
+  turnAround(speed);
 }
+
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Route to pick up third ball (ball 10)
 void thirdBall(int speed){
-  followLine(speed, 5, true);
-  followline(speed, 1, false);
-  do{
-    if (bumper()){
-      //grab ball
-      wallinfront();
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  initializing();
+  GoforIntersection(speed, 3, true);
+  GoforIntersection(speed, 1, false);
+  GoforWall(speed);
   turnAround(speed);
-  followLine(speed, 1, true);
-  followLine(speed, 1, false);
-  do{
-    if(bumper()){
-      homeinfront();
-      turnAround(speed); //come back to original position
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  forward(speed);
+  Sweep();
+  delay(500);
+  GoforIntersection(speed, 3, true);
+  GoforIntersection(speed, 1, false);
+  GoforHome(speed);
+  turnAround(speed);
 }
-
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Route to pick up fourth ball (ball 6-0)
 void fourthBall(int speed){
-  followLine(speed, 5, false);
-  followLine(speed, 3, true);
-  do{
-    if (bumper()){
-      //grab ball
-      wallinfront();
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  initializing();
+  GoforIntersection(speed, 2, false);
+  GoforIntersection(speed, 3, true);
+  GoforWall(speed);
   turnAround(speed);
-  followLine(speed, 1, false);
-  followLine(speed, 1, true);
-  do{
-    if(bumper()){
-      homeinfront();
-      turnAround(speed); //come back to original position
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  forward(speed);
+  Sweep();
+  delay(500)
+  GoforIntersection(speed, 4, false);
+  GoforIntersection(speed, 1, true);
+  GoforHome(speed);
+  turnAround(speed);
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 //Route to pick up fourth ball (ball 13)
 void fifthBall(int speed){
-  followLine(speed, 3, true); //starting from position 0
-  do{
-    if (bumper()){
-      //grab ball
-      wallinfront();
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+
+  initializing();
+  GoforIntersection(speed, 3, true);
+  GoforWall(speed);
   turnAround(speed);
-  followLine(speed, 4, false);
-  do{
-    if(bumper()){
-      homeinfront();
-      turnAround(speed); //come back to original position
-    }
-    else{
-      followLine(speed, 10, false);
-    }
-  }while(!bumper());
+  forward(speed);
+  Sweep();
+  delay(500);
+  GoforIntersection(speed, 3, false);
+  GoforHome(speed);
 }
