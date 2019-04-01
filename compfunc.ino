@@ -94,21 +94,19 @@ void palse(){
 
 //----------------------------turnaround codes-------
 void turnAround(int currentSpeed){
-  reverse(100);
-  delay(100);
-  stationaryturn(true, currentSpeed);
-  delay(1600);
+  reverse(currentSpeed);
+  delay(800);
+  stationaryturn(true, currentSpeed-20);
+  delay(1400);
   int centerSensorValue,leftSensorValue,rightSensorValue;
     while(1){ centerSensorValue = analogRead(MIRpin);
         leftSensorValue = analogRead(LIRpin);
         rightSensorValue = analogRead(RIRpin);
-        stationaryturn(true, currentSpeed);
+        stationaryturn(true, currentSpeed-20);
         if(centerSensorValue >= BlackTHRESH && leftSensorValue < BlackTHRESH && rightSensorValue < BlackTHRESH){
           break;
         }
     }
-    reverse(100);
-    delay(80);
      linecounter=0;
     return;
 }
@@ -148,9 +146,10 @@ int followLine(int currentSpeed, int intersectThresh, boolean dir) {
   }
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
            Serial.println("Intersection recognized");
-   intersect( intersectThresh, dir, currentSpeed);
-   return 1;
-
+   if(intersect( intersectThresh, dir, currentSpeed)){
+   return 1;}else{
+    return 0;
+   }
  }
  Serial.print("linecounter                     ");
  Serial.println(linecounter);
@@ -158,7 +157,7 @@ int followLine(int currentSpeed, int intersectThresh, boolean dir) {
   }
 
 //-------------------------intersection------------------------ 
-void intersect( int intersectThresh , boolean dir, int currentSpeed){
+int intersect( int intersectThresh , boolean dir, int currentSpeed){
   linecounter = linecounter +1;
   int leftSensorValue = analogRead(LIRpin);
   int centerSensorValue = analogRead(MIRpin);
@@ -185,11 +184,12 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
     do{ centerSensorValue = analogRead(MIRpin);
         testing( centerSensorValue, leftSensorValue, rightSensorValue);
         turn(dir, currentSpeed, true);
-    }while(centerSensorValue<BlackTHRESH);
-
+        if(centerSensorValue >= BlackTHRESH)break;
+    }while(1);
+    return 1;
   }
     Serial.println(linecounter);
-    return;
+    return 0;
 
 }
 

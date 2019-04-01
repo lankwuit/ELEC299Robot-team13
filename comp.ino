@@ -69,18 +69,20 @@ void setup() {
 void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
-//initializing();
+
 //while(1){
 // followLine(120, 2, false);
 //intersect(17,false, 0);
 //}
  position0(140);
-
+//thirdBall0(140);
 //Adjustment();
+
 //homeinfront();
 //grabbing();
 //initializing();
 //wallinfront();
+//turnAround(100);
 //int    GripSense=analogRead(GripSensorpin);
 
 //    Serial.println(GripSense);
