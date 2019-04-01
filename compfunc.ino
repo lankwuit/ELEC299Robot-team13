@@ -107,6 +107,8 @@ void turnAround(int currentSpeed){
           break;
         }
     }
+    reverse(100);
+    delay(80);
      linecounter=0;
     return;
 }
@@ -172,7 +174,11 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
   }
   Serial.print("in the intersection checking loop");
   }
-  if (linecounter >=intersectThresh){
+  Serial.print("currenlty the linecounter");
+  Serial.println(linecounter);
+  Serial.print("currenlty the linecounterThresh");
+  Serial.println(intersectThresh);
+  if (linecounter == intersectThresh){
     Serial.println("time to turn");
             turn(dir, currentSpeed, true);
             delay(500);
@@ -182,6 +188,7 @@ void intersect( int intersectThresh , boolean dir, int currentSpeed){
     }while(centerSensorValue<BlackTHRESH);
 
   }
+    Serial.println(linecounter);
     return;
 
 }
@@ -248,13 +255,13 @@ int bumper(){ //--------bumper shows 1 when clicked, shows 0 when released
 
 //------------------------------void testing
 void testing(int centerSensorValue, int leftSensorValue, int rightSensorValue){
-    Serial.print("center         ");
+/*    Serial.print("center         ");
   Serial.println(centerSensorValue);
     Serial.print("left         ");
     Serial.println(leftSensorValue);
       Serial.print("right         ");
       Serial.println(rightSensorValue);
-      return;
+      return;*/
 }
 //-----------------------------------------------------WALL AND GRIPPING DETECTION----------------------------------
 

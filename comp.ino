@@ -69,8 +69,12 @@ void setup() {
 void loop() {
  // put your main code here, to run repeatedly:
 // Serial.print(bumper());
-initializing();
- position2(140);
+//initializing();
+//while(1){
+// followLine(120, 2, false);
+//intersect(17,false, 0);
+//}
+ position0(140);
 
 //Adjustment();
 //homeinfront();
