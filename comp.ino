@@ -1,9 +1,10 @@
 #include <Servo.h>
 #include "QSerial.h"
 
+QSerial myIRS;
 
 //----------------------------------
-#define rxpin 5    //where the initial IR sensor is connected to 开始位置定义的红接pin
+#define rxpin 12    //where the initial IR sensor is connected to 开始位置定义的红接pin
 #define txpin -1
 
 //------------------------------above IR pins definition--------------
@@ -39,10 +40,11 @@
 #define Gripperpin 11
 #define HorizontalDrpin 8
 
+//--------------------------------------------LEDpin
+#define LEDpin 9
 
 
 Servo Elevator, Gripper, HorizontalDr;
-QSerial myIRS;
 
 void setup() {
 //----------------------------------Serial begin for preseted 9600 refresh rate--------------------
@@ -74,7 +76,31 @@ void loop() {
 // followLine(120, 2, false);
 //intersect(17,false, 0);
 //}
- position0(140);
+/*
+int received=-1;
+received=receiver(myIRS);
+if (received !=-1)
+  digitalWrite(LEDpin, HIGH);
+ Serial.print("received       ");
+ Serial.println((char)received);
+  */
+
+
+
+switch((char) receiver(myIRS)){
+  case '0':
+  position0(140);
+  break;
+  case '1':
+  position1(140);
+  break;
+  case '2':
+  position2(140);
+  break;
+  default:
+  break;
+}
+// position0(140);
 //thirdBall0(140);
 //Adjustment();
 

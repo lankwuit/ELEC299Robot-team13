@@ -26,7 +26,7 @@ void secondBall2(int speed){
 
 
 
-    GoforIntersection(speed, 2, true);
+    GoforIntersection(speed, 3, true);
 
   GoforHome(speed);
     
@@ -43,11 +43,9 @@ void thirdBall2(int speed){
   GoforIntersection(speed, 1, false);
   GoforWall(speed);
   turnAround(speed);
-  forward(speed);
-   delay(500);
-  sweep();pause();
+
  
-  GoforIntersection(speed, 3, true);
+  GoforIntersection(speed, 2, true);
   GoforIntersection(speed, 1, false);
   GoforHome(speed);
   turnAround(speed);
@@ -56,15 +54,13 @@ void thirdBall2(int speed){
 //Route to pick up fourth Ball2 (Ball2 6-0)
 void fourthBall2(int speed){
   initializing();
-  GoforIntersection(speed, 2, false);
+  GoforIntersection(speed, 5, false);
   GoforIntersection(speed, 3, true);
   GoforWall(speed);
   turnAround(speed);
-  forward(speed);
-    delay(500);
-  sweep();pause();
 
-  GoforIntersection(speed, 4, false);
+
+  GoforIntersection(speed, 1, false);
   GoforIntersection(speed, 1, true);
   GoforHome(speed);
   turnAround(speed);
@@ -78,9 +74,7 @@ void fifthBall2(int speed){
   GoforIntersection(speed, 3, true);
   GoforWall(speed);
   turnAround(speed);
-  forward(speed);
-  delay(500);
-  sweep();pause();
+
 
   GoforIntersection(speed, 3, false);
   GoforHome(speed);

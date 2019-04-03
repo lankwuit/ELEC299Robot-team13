@@ -27,9 +27,8 @@ int linecounter=0;
 int receiver(QSerial myIRS){
   int val = myIRS.receive(200);
   delay(100);
-  if(val== 0 ){
   return val;
-  }
+
 }
 //----------------------------------------------------------------------------------------------------------------------
 /*int countEncoderLEFT(){// input the revolution counter pin and reutn how much 60 degrees has been experienced
@@ -147,6 +146,7 @@ int followLine(int currentSpeed, int intersectThresh, boolean dir) {
   else if (centerSensorValue >= BlackTHRESH && leftSensorValue >= BlackTHRESH && rightSensorValue >= BlackTHRESH){
            Serial.println("Intersection recognized");
    if(intersect( intersectThresh, dir, currentSpeed)){
+    linecounter=0;
    return 1;}else{
     return 0;
    }

@@ -37,7 +37,7 @@ void thirdBall1(int speed){
 //route for fourth Ball1 (Ball1 12)
 void fourthBall1(int speed){
   initializing();
-  GoforIntersection(speed, 5, true);
+  GoforIntersection(speed, 4, true);
   GoforWall(speed);
   turnAround(speed);
 
@@ -49,7 +49,7 @@ void fourthBall1(int speed){
 //route for fifth Ball1
 void  fifthBall1(int speed){
   initializing();
-  GoforIntersection(speed, 2, true);
+  GoforIntersection(speed, 1, true);
   GoforWall(speed);
   turnAround(speed);
 

@@ -65,7 +65,7 @@ void fourthBall0(int speed){
 //Route to pick up fifth ball (ball 14)
 void fifthBall0(int speed){
   initializing();
-  GoforIntersection(speed, 3, true);
+  GoforIntersection(speed, 2, true);
   GoforWall(speed);
   turnAround(speed);
 //  forward(speed);
